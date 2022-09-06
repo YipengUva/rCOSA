@@ -31,7 +31,7 @@
 #'
 #' @param targ2 the second target value when computing dual targeted dissimilarities. The \code{targ2[j]}  = second target value for \code{X[,k]}. The value is ignored if \code{lX[k] = 0},\code{1},\code{2},\code{4},\code{5}, or when \code{targ = "low"},\code{"high"}, or \code{"high/low"}.
 #' \cr
-#' @param knear size of number of objects in the near-neighborhoods which is used to calculate attribute weights for each object. By default \code{knear = sqrt(nrow(X))}, which, inside the function, is truncated to an  integer.
+#' @param knear size of number of objects in the near-neighborhoods which is used to calculate attribute weights for each object. By default 1, which, inside the function, is truncated to an  integer.
 #' \cr
 #' @param xmiss numeric value for missings in the data, by default it is set to \code{NULL}. In case you have coded missings in the data differently by using a number then indicate that number in this argument. The coded value for missings must be larger than any data value on any input variable.
 #' \cr
@@ -95,7 +95,7 @@
 cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = 1,
                   xmiss = NULL, lambda = 0.2, qntls = c(0.05, 0.95), wtcomb = "each",
                   relax = 0.1, conv = 1e-05, niter = 1, noit = 100, stand = 1, pwr = 1) {
-  knear = sqrt(dim(X)[1])
+  knear = round(sqrt(dim(X)[1]))
   OUT <- vector(length = 4, mode = "list")
   names(OUT) <- c("call", "D", "W", "tunpar")
   OUT$CALL <- sys.call()
