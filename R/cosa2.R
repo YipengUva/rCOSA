@@ -92,10 +92,10 @@
 #'
 #' @export
 
-cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = sqrt(nrow(X)),
+cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = 1,
                   xmiss = NULL, lambda = 0.2, qntls = c(0.05, 0.95), wtcomb = "each",
                   relax = 0.1, conv = 1e-05, niter = 1, noit = 100, stand = 1, pwr = 1) {
-
+  knear = sqrt(nrow(X))
   OUT <- vector(length = 4, mode = "list")
   names(OUT) <- c("call", "D", "W", "tunpar")
   OUT$CALL <- sys.call()
@@ -177,7 +177,7 @@ cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = sqrt(nrow(X))
   # Preparing the Data for Fortran (including missings):
   X_class <- class(X)
   cat("X_class", X_class)
-  X <- sapply(X, function(x) as.numeric(x))
+  #X <- sapply(X, function(x) as.numeric(x))
   print(X_class)
                 
   if (missing(xmiss) && !is.null(attr(X, "xmiss"))) {
