@@ -175,8 +175,8 @@ cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = sqrt(nrow(X))
 
 
   # Preparing the Data for Fortran (including missings):
-
-  if (class(X)[0] == "data.frame") X <- sapply(X, function(x) as.numeric(x))
+  X_class <- class(X)
+  if (length(X_class)<=1 & X_class == "data.frame") X <- sapply(X, function(x) as.numeric(x))
 
   if (missing(xmiss) && !is.null(attr(X, "xmiss"))) {
     xmisst <- attr(X, "xmiss")
