@@ -95,14 +95,14 @@
 cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = 1,
                   xmiss = NULL, lambda = 0.2, qntls = c(0.05, 0.95), wtcomb = "each",
                   relax = 0.1, conv = 1e-05, niter = 1, noit = 100, stand = 1, pwr = 1) {
-  knear = sqrt(nrow(X))
+  knear = sqrt(dim(X)[1])
   OUT <- vector(length = 4, mode = "list")
   names(OUT) <- c("call", "D", "W", "tunpar")
   OUT$CALL <- sys.call()
 
   # Dimensions X:
-  nrx <- as.integer(nrow(X))
-  ncx <- as.integer(ncol(X))
+  nrx <- as.integer(dim(X)[1])
+  ncx <- as.integer(dim(X)[2])
 
   # Arrange the Targeting:
   if (is.null(targ)) {
@@ -216,12 +216,15 @@ cosa2 <- function(X, lX = NULL, targ = NULL, targ2 = NULL, knear = 1,
   storage.mode(wi) <- "double"
 
   double.n2 <- double(nrx * (nrx - 1) / 2)
-
+  
+  print('Before Fortran algorithm')
+                
   Z <- .Fortran("cosa",
                 no = nrx, ni = ncx, kn = kn, x = X,
                 ip = ipams, dp = dpams, lx = lX, tg = tg,
                 d = double.n2, wi = wi, PACKAGE = "rCOSA"
   )
+  print('After Fortran algorithm')
 
   dis <- Z$d
   attr(dis, "Size") <- nrx
